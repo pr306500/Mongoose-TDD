@@ -1,0 +1,16 @@
+{
+  "name": "udemy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon --exec 'mocha -R min'"
+  },
+  "author": "Pranjal Sharma <pranjal.sharma306500@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "mocha": "^3.4.2",
+    "mongoose": "^4.11.2",
+    "nodemon": "^1.11.0"
+  }
+}
