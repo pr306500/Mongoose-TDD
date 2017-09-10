@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 before((done)=>{
 
-   mongoose.connect('mongodb://localhost/users_test');
+   mongoose.connect('mongodb://localhost:27017/testdriven');
    mongoose.connection
         .once('open',()=>{
         	done();
@@ -19,12 +19,21 @@ before((done)=>{
 })      
 
  beforeEach((done)=>{
-   
-   let { users, comments, blogposts } = mongoose.connection.collections
-   mongoose.connecution.collections.users.drop(()=>{
+   /*Mongoose actually normalizes the each collection name by lowercasing the entire collection name*/
+   let { users, comments, blogposts } = mongoose.connection.collections;
+     
+     users.drop(()=>{
 
- 	done();
+      comments.drop(()=>{
 
- });
+         blogposts.drop(()=>{
+             
+             done();
+
+         })
+
+      })
+
+     })
 
  })

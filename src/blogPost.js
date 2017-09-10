@@ -17,4 +17,5 @@ const BlogPostSchema = new Schema({
 
 const BlogPost = mongoose.model('blogPost',BlogPostSchema);
 
-module.export = BlogPost;
+module.exports = BlogPost;
+/*A blog post will have many comments , so we will pass an array of comments*/

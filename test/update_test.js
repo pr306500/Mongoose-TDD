@@ -1,4 +1,4 @@
-Ujnconst assert = require('assert');
+const assert = require('assert');
 const User = require('../src/user');
 
 // joe is our server side representation, we cannot update db directly through joe.

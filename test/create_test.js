@@ -9,6 +9,7 @@ const User = require('../src/user');
 describe('Creating records',() => {
 
 	it('saves a user',(done) => {
+console.log('**')
         /*
            joe is the record / document created in User collection.
         */

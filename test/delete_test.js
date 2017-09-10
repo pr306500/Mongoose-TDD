@@ -14,7 +14,14 @@ beforeEach((done)=>{
   })
 
   joe.save()
-     .then((!joe.isNew)=>done())
+     .then(()=>{
+       if(!joe.isNew){
+           
+           done()
+
+       }
+      
+    })
 
 })
 

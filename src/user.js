@@ -27,7 +27,7 @@ const UserSchema = new Schema({
 	blogPost : [{
 
 	  type : Schema.Types.ObjectId,
-    ref : 'blogPost'
+    ref : 'blogPost'//name of the model.
 
       }]
 	

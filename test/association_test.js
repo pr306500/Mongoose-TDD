@@ -1,11 +1,22 @@
+/*
+
+    Very Imp Note ~ Association
+
+    In case of twitter, an user can post many blogs(tweets), hence put in array.(One to Many)
+    Now a blog can have many comments ,so put in an array.(One to many)
+    Now each comment refers to a single user only, hence no need for an array.(one to one)
+
+*/
+
 const mongoose = require('mongoose');
 
 const User = require('../src/user');
 
 const Comment = require('../src/comment');
 
-const Blog = require('../src/blogPost');
+const BlogPost = require('../src/blogPost');
 
+const assert = require('assert');
 /*
   
   In this we are going to associate the joe to the blogPost
@@ -24,7 +35,7 @@ describe('Associations',()=>{
     	name : 'joe'
     });
 
-    blogPost = new Blog({
+    blogPost = new BlogPost({
       
       title : 'JS is Great',
       content : 'Yep it is real'
@@ -36,7 +47,7 @@ describe('Associations',()=>{
     	content : 'congrates on great post'
     })
 
-    joe.blogPost.push(blogPost);
+    joe.blogPost.push(blogPost);// blogpost has been pushed 
     blogPost.comments.push(comment);
     comment.user = joe;
 
@@ -44,17 +55,42 @@ describe('Associations',()=>{
     //It is used to execute the async all together.
  });
 
- it.only('saves a relation between user and a blogPost',()=>{
-  
-  User.findOne({name : 'Joe'})
+ it('saves a relation between user and a blogPost',(done)=>{
+  //this.setTimeout('5000');
+  User.findOne({'name' : 'joe'})
       .populate('blogPost')
       .then((user)=>{
-        console.log(user);
+        assert(user.blogPost[0].title === 'JS is Great')
         done();
       })
 
 
  })
+
+ it('saves a full relation graph',(done)=>{
+
+     User.findOne({name:'joe'})
+         .populate({
+            'path':'blogPost', //user object property named 'blogPost'
+            'populate':{       //We want to further go inside there & attempt to load up additional Association.
+               'path':'comments',
+               'model':'comment',//As it's not the part of the User schema hence we need to mention the model name (mongoose.model) also .
+               'populate':{
+                 'path': 'user',
+                 'model':'user'
+               }  
+            }
+         })
+         .then((user)=>{
+            assert(user.name === 'joe');
+            assert(user.blogPost[0].title === 'JS is Great');
+            assert(user.blogPost[0].comments[0].content === 'congrates on great post');
+            assert(user.blogPost[0].comments[0].user.name === 'joe');
+
+            done();
+         })
+
+    })
 
 
 })
