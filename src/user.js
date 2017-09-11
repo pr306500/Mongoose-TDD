@@ -41,6 +41,25 @@ UserSchema.virtual('postCount').get(function(){
 
  return this.posts.length;
 
+});
+/*
+Our moto is that before removing the user, the blogPost 
+must be removed after that only the remove must be executed. 
+*/
+UserSchema.pre('remove',function(next){
+
+ const BlogPost = mongoose.model('blogPost');
+ 
+ /* In case of $in operator we can perform specific operation('remove') over an array of items. */
+ BlogPost.remove({'_id':{'$in':this.blogPost}})
+        .then(()=>next())
+
+  /* Next is a function, after every logic gets executed
+     inside a middleware we call next function and that tell
+     mongoose to call the next middleware. If no middleware is 
+     there then remove gets executed.
+  */
+
 })
 
 const User = mongoose.model('user',UserSchema);
