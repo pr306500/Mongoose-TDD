@@ -5,17 +5,25 @@
   let joe;
     
     beforeEach((done)=>{
-     
+      
+      alex = new User({
+        name:'Alex'
+      });
+
        joe = new User({
        name:'Joe'
        });
-       joe.save()
-          .then(()=>{
+       
+       maria = new User ({
+        name:'Maria'
+       });
 
-          assert(!joe.isNew);
-          
-          done();
-          })
+       zack = new User({
+        name:'Zack'
+       })
+
+       Promise.all([alex.save(), joe.save(), maria.save(), zack.save()])
+              .then(()=>done())
 
     })
 
@@ -43,6 +51,30 @@
 
               })
         
+     })
+
+     it.only('can skip and limit the result set',(done)=>{
+        /* suppose we have alex, joe, maria, zack
+           alex - skipped / [joe, maria] - limited - showed.
+           Sort all my users by the name property and sort them
+           in ascending order i.e. A,B,C..
+           In sorting : 1 - ascending
+                      : 2 - descending
+           */
+        User.find({})
+            .sort({name:-1})
+            .skip(1)
+            .limit(2)
+            .then((user)=>{
+          
+              assert(user.length === 2);
+              assert(user[0].name === 'Maria');
+              assert(user[1].name === 'Joe');
+              done();
+
+            })
+ 
+
      })
 
 
