@@ -8,8 +8,9 @@ describe('Subdocuments',()=>{
  	const joe = new User({
 
         name : 'Joe',
-        posts : [{'title':'PostTitle'}]
-
+        posts : [{'title':'PostTitle'}] //It's an array of object, as per schema
+        // the [postSchema] should be inside the array.
+        //One post will insert one at a time .
  	});
 
  	joe.save()
@@ -59,7 +60,7 @@ describe('Subdocuments',()=>{
     joe.save()
        .then(()=>{return  User.findOne({name : 'Joe'})})
        .then((user)=>{
-       	
+       	 // remove the zeroth index of an array.
        	 user.posts[0].remove();
        	 return user.save();
        })

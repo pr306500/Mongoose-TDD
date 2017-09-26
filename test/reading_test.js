@@ -40,9 +40,9 @@
 
      })
 
-     it('find a user with a specific user_id',(done)=>{
+     it('find a first user in collection with a name of joe',(done)=>{
 
-          User.findOne({_id:joe._id})
+          User.findOne({'name':'Joe'})
               .then((user)=>{
                   
                  assert(user.name === 'Joe');
@@ -52,8 +52,20 @@
               })
         
      })
+     it('find a user with a specific user_id',(done)=>{
+      
+                User.findById(joe._id)
+                    .then((user)=>{
+                        
+                       assert(user.name === 'Joe');
+      
+                       done();
+      
+                    })
+              
+           })
 
-     it.only('can skip and limit the result set',(done)=>{
+     it('can skip and limit the result set',(done)=>{
         /* suppose we have alex, joe, maria, zack
            alex - skipped / [joe, maria] - limited - showed.
            Sort all my users by the name property and sort them
@@ -62,9 +74,9 @@
                       : 2 - descending
            */
         User.find({})
-            .sort({name:-1})
-            .skip(1)
-            .limit(2)
+            .sort({name:-1}) // Sorting performed in descending order(alphabetical order)
+            .skip(1)  //Order will be zack,maria,joe,alex --> zack will get skipped.
+            .limit(2) //Only maria and joe will get displayed.
             .then((user)=>{
           
               assert(user.length === 2);

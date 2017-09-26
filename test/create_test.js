@@ -1,5 +1,5 @@
 //Every time we instanciate the User, new recored get created
-//that will contain only the 'name' property as mentioned in schema.
+//that will contain only the 'name' property as mentioned below.
 //Here 'joe' represents the new record created.
 
 const assert = require('assert');
@@ -9,7 +9,6 @@ const User = require('../src/user');
 describe('Creating records',() => {
 
 	it('saves a user',(done) => {
-console.log('**')
         /*
            joe is the record / document created in User collection.
         */
@@ -24,7 +23,7 @@ console.log('**')
           to db next test case might get execute.
         */
 		joe.save().then(()=>{
-           
+           /*If joe.isNew is false it means it got saved to db*/ 
            assert(!joe.isNew);
            done();
 

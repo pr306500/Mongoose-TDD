@@ -25,6 +25,8 @@ describe('Middleware',()=>{
     });
 
     joe.blogPost.push(blogPost);// blogpost has been pushed 
+    
+    /* Both joe,blogPost are promisified. */
 
     Promise.all([joe.save(),blogPost.save()]).then(()=>done())
     //It is used to execute the async all together.

@@ -58,7 +58,7 @@ describe('Associations',()=>{
  it('saves a relation between user and a blogPost',(done)=>{
   //this.setTimeout('5000');
   User.findOne({'name' : 'joe'})
-      .populate('blogPost')
+      .populate('blogPost')//'blogPost is the name of the property'
       .then((user)=>{
         assert(user.blogPost[0].title === 'JS is Great')
         done();
@@ -68,10 +68,10 @@ describe('Associations',()=>{
  })
 
  it('saves a full relation graph',(done)=>{
-
+    /* 3 level of mapping as a result 3 times populate feature added */
      User.findOne({name:'joe'})
          .populate({
-            'path':'blogPost', //user object property named 'blogPost'
+            'path':'blogPost', //user record has a property, named 'blogPost'
             'populate':{       //We want to further go inside there & attempt to load up additional Association.
                'path':'comments',
                'model':'comment',//As it's not the part of the User schema hence we need to mention the model name (mongoose.model) also .
