@@ -44,13 +44,16 @@ UserSchema.virtual('postCount').get(function(){
 });
 /*
 Our moto is that before removing the user, the blogPost 
-must be removed after that only the remove must be executed. 
+must be removed after that only the remove user cmd must be executed. 
 */
 UserSchema.pre('remove',function(next){
 
  const BlogPost = mongoose.model('blogPost');
  
- /* In case of $in operator we can perform specific operation('remove') over an array of items. */
+ /* In case of $in operator we can perform specific operation('remove') over an array of items. 
+    Here below we are removing ony the blogs becoz it belongs to specific user whereas comments
+    are not theirs.
+ */
  BlogPost.remove({'_id':{'$in':this.blogPost}})
         .then(()=>next())
 
